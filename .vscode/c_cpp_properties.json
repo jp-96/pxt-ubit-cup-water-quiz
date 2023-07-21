@@ -3,7 +3,8 @@
         {
             "name": "micro:bit v2",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/pxt_modules/core"
             ],
             "defines": [
                 "CODAL_CONFIG_H"
@@ -16,7 +17,8 @@
         {
             "name": "micro:bit v1",
             "includePath": [
-                "${workspaceFolder}/**"
+                "${workspaceFolder}/**",
+                "${workspaceFolder}/pxt_modules/core"
             ],
             "defines": [
             ],

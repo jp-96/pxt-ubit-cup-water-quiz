@@ -152,6 +152,7 @@ namespace cupwater {
         basic.showString("C")
         state = RadioState.RS210Pairing
         // entry/ [SN]"moved"を送信
+        timeoutCounter = 10000 // ms
         radio.sendString("moved")
     }
 
@@ -480,6 +481,22 @@ namespace cupwater {
     }
 
     /**
+     * トリガー: タイムアウト
+     */
+    function onTriggerTimeout(): void {
+        switch (state) {
+            case RadioState.RS000Init:
+            case RadioState.RS100Idle:
+            case RadioState.RS400Timeouted:
+                break
+            default:
+            // タイムアウトへ
+                toTimeouted()
+                break
+        }
+    }
+
+    /**
      * Radio 文字列受信
      */
     radio.onReceivedString(function (receivedString) {
@@ -551,15 +568,21 @@ namespace cupwater {
     })
 
     /**
-     * ジェスチャー(動いた)
+     * ジェスチャー(動いた),タイムアウト
      */
     basic.forever(function () {
-        basic.pause(100)
+        const intervalTime = 100 // (ms)
+        basic.pause(intervalTime)
         if (RadioState.RS100Idle == state) {
             if (1274 < input.acceleration(Dimension.Strength)) {
                 // 動いた
                 onTriggerMoved()
             }
+        }
+        if (timeoutCounter > 0) {
+            timeoutCounter -= intervalTime
+        } else {
+            onTriggerTimeout()
         }
     })
 
@@ -594,6 +617,7 @@ namespace cupwater {
     let cupWater = 0
     let sharedWater = 0
     let lastSerialNumber = 0
+    let timeoutCounter = 0
     radio.setGroup(1)
     radio.setTransmitSerialNumber(true)
 

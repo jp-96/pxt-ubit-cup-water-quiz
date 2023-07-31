@@ -2,16 +2,14 @@
     "name": "pxt-ubit-extension",
     "description": "",
     "dependencies": {
-        "core": "*"
+        "core": "*",
+        "radio": "*"
     },
     "files": [
         "README.md",
         "enums.d.ts",
         "shims.d.ts",
-        "custom.ts",
-        "custom.cpp",
-        "lib/customlib.h",
-        "lib/customlib.cpp"
+        "cupwater.ts"
     ],
     "testFiles": [
         "test.ts"
